@@ -28,8 +28,11 @@ app.get('/music', (req, res)=>{
 	res.render('music')
 })
 
+app.get('/game/:name', (req, res)=>{
+	res.render('games/' + req.params.name)
+})
 
-var port = process.env.PORT || 3000;
+let port = process.env.PORT || 3000;
 app.listen(port, function () {
     console.log("Server Has Started!");
 });
