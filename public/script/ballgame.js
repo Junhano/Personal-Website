@@ -1,7 +1,24 @@
 function setup() {
+	let currentScene;
+	let health;
+	let health5=5;
+	let positionX=30;
+	let positionY=0;
+	let xspeed=3;
+	let yspeed=5;
+	let score=0;
+	let scoreX=0;
+
+	let arrayHealth=[];
+
+	let btnmouseX=106;
+	let addValue=0;
+	let speedfree;
+	
+	
 	let parent_container = document.querySelector('.center-c')
   	let canvas = createCanvas(parent_container.offsetWidth, windowHeight / 1.5); 
-  // Move the canvas so it’s inside our <div id="sketch-holder">.
+
     canvas.parent('ball');
 	
 	
@@ -30,10 +47,6 @@ function setup() {
 		Boxcs.push(new Boxc(i * 30 , random(44, 130)));
 	}
 
-	let Boxcss=[];
-	for (var c=0; c<40; c++){
-		Boxcss.push(new Boxc(c*30, random(130,260)));
-	}
 
 
 
@@ -74,10 +87,11 @@ function setup() {
 	});
 
 	let btnFree1=new btn({
-		x:280,
-		y:340,
+		x:1000,
+		y:600,
 		text:"Press To Start"
 	});
+	
 	let drawButton=function(btn){
 		fill(60, 185, 230);
 		rect(btn.x,btn.y,btn.width,btn.height,10);
@@ -90,21 +104,55 @@ function setup() {
 	let mouseIsInside=function(btn){
 		return(mouseX>=btn.x&&mouseX<=btn.width+btn.x&&mouseY>=btn.y&&mouseY<=btn.height+btn.y);  
 	};
-	let currentScene;
-	let health;
-	let health5=5;
-	let positionX=30;
-	let positionY=0;
-	let xspeed=3;
-	let yspeed=5;
-	let score=0;
-	let scoreX=0;
+	
+	let endGame = function(){
+		fill(150, 150, 150);
+		rect(0,0,parent_container.offsetWidth, windowHeight / 1.5);
+		fill(82, 58, 58);
+		textSize(20);
+		text("Your died, press anywhere to restart",400,240);
+		noLoop();
+		mouseClicked=function(){
+			drawScene1();
+		};
+	}
+	
+	
+	let ballMovement = function(infinity){
+		positionX += xspeed;
+		positionY += yspeed;
+		if ((positionX > width) || (positionX < 0)) {
+			xspeed = xspeed * -1;
+		}
+		if ( (positionY < 0 )) {
+			yspeed = yspeed * -1;
+		}
 
-	let arrayHealth=[];
+		if(positionX>mouseX&&positionX<mouseX+55&&positionY> windowHeight / 1.5 - 5){
+			if (infinity) {
+				yspeed *= -1
+			}
+			else{
+				yspeed = yspeed* (-1-scoreX/50);
+				score++;
+				scoreX++;
+			}
 
-	let btnmouseX=106;
-	let addValue=0;
-	let speedfree;
+		}
+		if  (positionY>height){
+			positionY=0;
+			if (!infinity){
+				health5--;
+				scoreX=0;
+				yspeed=5;	
+			}
+
+		}
+
+
+		
+	}
+
 
 	//home page (done)
 	let drawScene1=function(){
@@ -132,7 +180,7 @@ function setup() {
 
 
 
-	//survival mode 
+	//survival mode (done)
 	let drawScene2=function(){
 		currentScene=2;
 		background(150, 150, 150);
@@ -140,61 +188,35 @@ function setup() {
 		rect(mouseX,windowHeight / 1.5 - 5,55,5);
 
 		ellipse(positionX,positionY,10,10);
-		positionX=positionX+xspeed;
-		positionY=positionY+yspeed;
-		if ((positionX > width) || (positionX < 0)) {
-			xspeed = xspeed * -1;
-		}
-		if ( (positionY < 0 )) {
-			yspeed = yspeed * -1;
-
-		}
-		if(positionX>mouseX&&positionX<mouseX+55&&positionY>380){
-			yspeed = yspeed* (-1-scoreX/50);
-			score++;
-			scoreX++;
-
-		}
-		if  (positionY>height){
-			positionY=0;
-			health5--;
-			scoreX=0;
-			yspeed=5;
-
-		}
+		ballMovement()
 
 		textSize(29);
 		text("lives:"+health5,20,46);   
 		text("score:"+score,900,46);
+		
+		if (health5 < 0){
+			endGame(false)
+		}
 
 
 	};
 
 
 
-	//infinity mode  
+	//infinity mode  (done)
 	let drawScene3=function(){
 		currentScene=3;
 		background(4, 68, 102);
 		fill(0, 255, 157);
 
 		textSize(20);
-		text("Infinity Mode",141,47);
-		rect(mouseX,390,55,5);
+		text("Infinity Mode",500,47);
+		mouseX=constrain(mouseX,0,parent_container.offsetWidth - 55);
+		rect(mouseX,windowHeight / 1.5 - 5,55,5);
+
 
 		ellipse(positionX,positionY,10,10);
-		positionX=positionX+xspeed;
-		positionY=positionY+yspeed;
-		if ((positionX > width) || (positionX < 0)) {
-			xspeed = xspeed * -1;
-		}
-		if ( (positionY < 0 )|| (positionX>mouseX&& positionX<mouseX+55&&positionY>380)) {
-			yspeed = yspeed * -1;
-
-		}
-		if (positionY>height){
-			positionY=0;
-		}
+		ballMovement(true)
 		drawButton(btnReturn);
 	};
 
@@ -216,47 +238,25 @@ function setup() {
 		currentScene=5;
 		background(232, 216, 216);
 		fill(56, 36, 36);
-		mouseX=constrain(mouseX,0,345);
-		rect(mouseX,390,55,5);
+		
+		for (var i = 0; i < Boxcs.length; i++) {
+			Boxcs[i].draw();
+		}   
 
+		mouseX=constrain(mouseX,0,parent_container.offsetWidth - 55);
+		rect(mouseX,windowHeight / 1.5 - 5,55,5);
+		
 		ellipse(positionX,positionY,10,10);
-		positionX=positionX+xspeed;
-		positionY=positionY+yspeed;
-		if ((positionX > width) || (positionX < 0)) {
-			xspeed = xspeed * -1;
-		}
-		if ( (positionY < 0 )) {
-			yspeed = yspeed * -1;
-
-		}
-		if(positionX>mouseX&&positionX<mouseX+55&&positionY>380){
-			yspeed = yspeed* -1;
-			score++;
-
-		}
-		if  (positionY>height){
-			positionY=0;
-			health5--;
-
-		}
-		if  (health5<0){
-			fill(150, 150, 150);
-			rect(0,0,400,400);
-			fill(82, 58, 58);
-			textSize(20);
-			text("Your died, press anywhere to restart",40,200);
-			noLoop();
-			mouseClicked=function(){
-				Program.restart();
-			};
-		}
-
-
-
+		ballMovement(false);
 
 		textSize(29);
 		text("lives:"+health5,20,46);   
-		text("score:"+score,281,46);
+		text("score:"+score,900,46);
+		
+		if  (health5<0){
+			endGame()
+		}
+
 
 	   };
 
@@ -265,7 +265,7 @@ function setup() {
 		currentScene=6;
 		background(161, 196, 190);
 
-		fill(125, 55, 55);
+`		fill(125, 55, 55);
 		text("Drag the mouse to the speed you want",7,73);
 
 
@@ -305,7 +305,7 @@ function setup() {
 
 
 		};
-
+`
 
 		drawButton(btnFree1);
 
@@ -316,8 +316,8 @@ function setup() {
 		currentScene=8;
 		background(2, 85, 140);
 		fill(69, 63, 63);
-		mouseX=constrain(mouseX,0,345);
-		rect(mouseX,390,55,5);
+		mouseX=constrain(mouseX,0,parent_container.offsetWidth - 55);
+		rect(mouseX,windowHeight / 1.5 - 5,55,5);
 		ellipse(positionX,positionY,10,10);
 
 		positionX+=xspeed;
@@ -337,7 +337,7 @@ function setup() {
 			scoreX++;
 		}
 
-		if(positionY>400){
+		if(positionY >(windowHeight / 1.5)){
 			positionY=0;
 
 		}
@@ -350,54 +350,25 @@ function setup() {
 		text("score:"+score,300,112);   
 	};
 	draw= function() {
-		if(currentScene===2){
-			drawScene2();
-			if(health5<0){
-			fill(150, 150, 150);
-			rect(0,0,400,400);
-			fill(82, 58, 58);
-			textSize(20);
-			text("Your died, press anywhere to restart",40,200);
-			text( "Score:"+score,160,280);
-			noLoop();
-			mouseClicked=function(){
-				Program.restart();
-			};
-			}       
-		}
-		if(currentScene===3){
-			drawScene3();
-		}
-		if(currentScene===5){
-			drawScene5();
-		for (var i = 0; i < Boxcs.length; i++) {
-			Boxcs[i].draw();
-	}   
-		for( var c=0; c< Boxcss.length; c++){
-			Boxcss[c].draw();
-		}
-
-		if(health5<0){
-			fill(150, 150, 150);
-			rect(0,0,400,400);
-			fill(82, 58, 58);
-			textSize(20);
-			text("Your died, press anywhere to restart",40,200);
-			text( "Score:"+score,160,280);
-			noLoop();
-			mouseClicked=function(){
-				Program.restart();
-			};
-		}
-
-		}
-		if(currentScene===6){
-			drawScene6();
-		}
-		if(currentScene===8){
-			drawScene8();
+		switch(currentScene){
+			case 2:
+				drawScene2();
+				break;
+			case 3:
+				drawScene3();
+				break;
+			case 5:
+				drawScene5();
+				break;
+			case 6:
+				drawScene6();
+				break;
+			case 8:
+				drawScene8();
+				break;
 		}
 	};
+	
 	mouseClicked=function(){
 			if(currentScene===1){
 				if(mouseIsInside(btnDescription)){
