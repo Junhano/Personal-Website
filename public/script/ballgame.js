@@ -9,12 +9,13 @@ function setup() {
 	let score=0;
 	let scoreX=0;
 
-	let arrayHealth=[];
 
 	let btnmouseX=106;
 	let addValue=0;
 	let speedfree;
 	
+	let inputSpeed;
+	let inputHealth;
 	
 	let parent_container = document.querySelector('.center-c')
   	let canvas = createCanvas(parent_container.offsetWidth, windowHeight / 1.5); 
@@ -41,6 +42,15 @@ function setup() {
 		fill(39, 196, 112);
 		rect(this.x, this.y, 20, 20);
 	};
+	
+	Boxc.prototype.contain = function(){
+		if (positionX >= this.x && positionX <= this.x + 20 && positionY >= this.y && positionY <= this.y + 20){
+			return true
+		}
+		else{
+			return false
+		}
+	}
 
 	let Boxcs = [];
 	for (var i = 0; i < 40; i++) {  
@@ -105,17 +115,24 @@ function setup() {
 		return(mouseX>=btn.x&&mouseX<=btn.width+btn.x&&mouseY>=btn.y&&mouseY<=btn.height+btn.y);  
 	};
 	
-	let endGame = function(){
+	let endGame = function(win){
 		fill(150, 150, 150);
 		rect(0,0,parent_container.offsetWidth, windowHeight / 1.5);
 		fill(82, 58, 58);
 		textSize(20);
-		text("Your died, press anywhere to restart",400,240);
+		if (win){
+			text("Congrats you win",400,240);
+		}
+		else{
+			text("Your died, press anywhere to restart",400,240);
+		}
+		
 		noLoop();
 		mouseClicked=function(){
 			drawScene1();
 		};
 	}
+	
 	
 	
 	let ballMovement = function(infinity){
@@ -154,6 +171,46 @@ function setup() {
 	}
 
 
+	let ballMovementFree = function(){
+		positionX += speedfree
+		positionY += speedfree
+		if ((positionX > width) || (positionX < 0)) {
+			xspeed = xspeed * -1;
+		}
+		if ( (positionY < 0 )) {
+			yspeed = yspeed * -1;
+		}
+		if(positionX>mouseX&&positionX<mouseX+55&&positionY> windowHeight / 1.5 - 5){
+			yspeed *= -1
+			score++;
+		}
+		if (positionY > height){
+			health--;
+			positionY = 0
+			yspeed = speedfree
+		}
+		
+		
+	}
+	
+	let ballMovementChallenge = function(){
+		positionX += xspeed
+		positionY += yspeed
+		if ((positionX > width) || (positionX < 0)) {
+			xspeed = xspeed * -1;
+		}
+		if ( (positionY < 0 )) {
+			yspeed = yspeed * -1;
+		}
+		if(positionX>mouseX&&positionX<mouseX+55&&positionY> windowHeight / 1.5 - 5){
+			yspeed *= -1
+		}
+		if (positionY > height){
+			health5--;
+			positionY = 0
+		}
+	}
+	
 	//home page (done)
 	let drawScene1=function(){
 		currentScene=1;  
@@ -233,13 +290,13 @@ function setup() {
 	};
 
 
-	//challenge mode
+	//challenge mode (done)
 	let drawScene5=function(){
 		currentScene=5;
 		background(232, 216, 216);
 		fill(56, 36, 36);
 		
-		for (var i = 0; i < Boxcs.length; i++) {
+		for (let i=0; i < Boxcs.length; i++) {
 			Boxcs[i].draw();
 		}   
 
@@ -247,65 +304,51 @@ function setup() {
 		rect(mouseX,windowHeight / 1.5 - 5,55,5);
 		
 		ellipse(positionX,positionY,10,10);
-		ballMovement(false);
+		for (let i = 0; i < Boxcs.length; i++){
+			if (Boxcs[i].contain()){
+				Boxcs.splice(i, 1)
+				score += 1
+				break;
+				}
+		}
+		
+		ballMovementChallenge();
+		
 
 		textSize(29);
 		text("lives:"+health5,20,46);   
 		text("score:"+score,900,46);
-		
+
 		if  (health5<0){
-			endGame()
+			endGame(false)
+		}
+		else if (Boxcs.length === 0){
+			endGame(true)
 		}
 
 
 	   };
 
-	//free mode Prep
+	//free mode Prep (done)
 	let drawScene6=function(){
 		currentScene=6;
+		noLoop();
 		background(161, 196, 190);
 
-`		fill(125, 55, 55);
-		text("Drag the mouse to the speed you want",7,73);
-
-
-		noFill();  
-		stroke(0,0,0);
-		rect(100,98,200,8,40);
-		fill(255, 0, 0);
-		ellipse(btnmouseX,102,20,20);
-		mouseDragged=function(){
-
-		   if(dist(mouseX,mouseY,btnmouseX,102)<=20){
-
-			   btnmouseX=constrain(mouseX,100,300);
-
-		   }    
-			speedfree=round(btnmouseX/20);  // over here!!!!!!!!!!!!!!!
-			fill(43, 30, 30);
-			text("speed:"+speedfree,300,70);
-
-		};
+		fill(125, 55, 55);
+		text("Type the speed of mouse you want",400,140);  
+		inputSpeed = createInput('', 'number');
+  		inputSpeed.position(805, 330); 
 
 
 
 
-		text("Type the number of health you want",7,268);
-		noFill();
-		line(7,300,300,300);
+		text("Type the number of health you want", 400,400);
+		inputHealth = createInput('', 'number');
+		inputHealth.position(805, 585);
 
-		keyPressed=function(){   //question here
+		
 
-		if(keyCode>=48&&keyCode<=57){
-		fill(0, 0, 0);
-		arrayHealth=arrayHealth+String.fromCharCode(key);
-
-		text(arrayHealth,7,290);
-		}
-
-
-		};
-`
 
 		drawButton(btnFree1);
 
@@ -319,27 +362,10 @@ function setup() {
 		mouseX=constrain(mouseX,0,parent_container.offsetWidth - 55);
 		rect(mouseX,windowHeight / 1.5 - 5,55,5);
 		ellipse(positionX,positionY,10,10);
+		ballMovementFree();
 
-		positionX+=xspeed;
-		positionY+=yspeed;
-
-
-
-		if(positionX>width||positionX<0){
-			xspeed=xspeed*(-1);
-		}
-
-		if(positionY<0){
-			yspeed=yspeed*(-1);
-		}
-		if(positionX>mouseX&&positionX<mouseX+55&&positionY>380){
-			yspeed=yspeed*(-1);
-			scoreX++;
-		}
-
-		if(positionY >(windowHeight / 1.5)){
-			positionY=0;
-
+		if (health < 0){
+			endGame(false);
 		}
 
 		textSize(27);
@@ -349,6 +375,7 @@ function setup() {
 		fill(0, 0, 0);
 		text("score:"+score,300,112);   
 	};
+	
 	draw= function() {
 		switch(currentScene){
 			case 2:
@@ -403,7 +430,14 @@ function setup() {
 
 			if(currentScene===6){
 				if(mouseIsInside(btnFree1)){
-				drawScene8();
+					let temp_speed = inputSpeed.value();
+					let temp_health = inputHealth.value();
+					if (temp_speed != "" && temp_health != ""){
+						health = Number(temp_health)
+						speedfree = Number(temp_speed)
+						loop();
+						drawScene8();
+					}
 				}
 		}
 		};
