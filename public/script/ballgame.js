@@ -116,21 +116,7 @@ function setup() {
 	};
 	
 	let endGame = function(win){
-		fill(150, 150, 150);
-		rect(0,0,parent_container.offsetWidth, windowHeight / 1.5);
-		fill(82, 58, 58);
-		textSize(20);
-		if (win){
-			text("Congrats you win",400,240);
-		}
-		else{
-			text("Your died, press anywhere to restart",400,240);
-		}
-		
-		noLoop();
-		mouseClicked=function(){
-			drawScene1();
-		};
+		drawScene9(win)
 	}
 	
 	
@@ -214,6 +200,7 @@ function setup() {
 	//home page (done)
 	let drawScene1=function(){
 		currentScene=1;  
+		score = 0;
 		background(89, 60, 60);
 
 		fill(43, 130, 129);
@@ -376,6 +363,31 @@ function setup() {
 		text("score:"+score,300,112);   
 	};
 	
+	let drawScene9 = function(win){
+		currentScene=9;
+
+		background(161, 196, 190);
+
+		fill(125, 55, 55);
+		textSize(25);
+		if (win){
+			text("Congrat, you win",500,240);  
+		}
+		else{
+			text("Sorry you are died", 500, 240);
+			text("Score:" + score, 500, 340)
+		}
+		health5 = 5;
+		drawButton(btnReturn)
+		
+		
+
+		
+		
+
+	}
+	
+	
 	draw= function() {
 		switch(currentScene){
 			case 2:
@@ -392,6 +404,9 @@ function setup() {
 				break;
 			case 8:
 				drawScene8();
+				break;
+			case 9:
+				drawScene9();
 				break;
 		}
 	};
@@ -417,17 +432,11 @@ function setup() {
 			if(currentScene===2){
 
 			}
-			if(currentScene===3){
+			if(currentScene===3 || currentScene === 4 || currentScene === 9){
 				if(mouseIsInside(btnReturn)){
 					drawScene1();
 				}
 			}
-			if(currentScene===4){
-				if(mouseIsInside(btnReturn)){
-				drawScene1();
-				}
-			}
-
 			if(currentScene===6){
 				if(mouseIsInside(btnFree1)){
 					let temp_speed = inputSpeed.value();
