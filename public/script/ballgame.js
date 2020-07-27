@@ -85,21 +85,10 @@ function setup() {
 		text:"Game Description"
 	});
 	let btnChallenge=new btn({
-		x:300,
+		x:520,
 		y:340,
 		width:120,
 		text:"Challenge mode"
-	});
-	let btnFree=new btn({
-		x:750,
-		y:340,
-		text:"Free mode"
-	});
-
-	let btnFree1=new btn({
-		x:1000,
-		y:600,
-		text:"Press To Start"
 	});
 	
 	let drawButton=function(btn){
@@ -217,7 +206,6 @@ function setup() {
 		drawButton(btnDescription);    
 		drawButton(btnSurvival);
 		drawButton(btnInfinity);
-		drawButton(btnFree);  
 		drawButton(btnChallenge);
 
 	};
@@ -273,7 +261,7 @@ function setup() {
 		text(" Game Description",440,70);
 		textSize(20);
 		textLeading(28);
-		text("Survival Mode:\n You have 5 lives, that means you dead when you didn't catch ball 5 times \nInfinity Mode: \nYou have infinty lives, you are not going to diedddddd \n Free Mode: \n You can control the speed of the ball and how many lives do you want \n Challenge Mode: \n You have 5 lives, some surprise challenges!! You will like it",300,190);
+		text("Survival Mode:\n You have 5 lives, that means you dead when you didn't catch ball 5 times \nInfinity Mode: \nYou have infinty lives, you are not going to diedddddd \n Challenge Mode: \n You have 5 lives, some surprise challenges!! You will like it",300,190);
 	};
 
 
@@ -316,52 +304,6 @@ function setup() {
 
 	   };
 
-	//free mode Prep (done)
-	let drawScene6=function(){
-		currentScene=6;
-		noLoop();
-		background(161, 196, 190);
-
-		fill(125, 55, 55);
-		text("Type the speed of mouse you want",400,140);  
-		inputSpeed = createInput('', 'number');
-  		inputSpeed.position(805, 330); 
-
-
-
-
-		text("Type the number of health you want", 400,400);
-		inputHealth = createInput('', 'number');
-		inputHealth.position(805, 585);
-
-		
-
-
-		drawButton(btnFree1);
-
-	};
-
-	//free mode real
-	let drawScene8=function(){
-		currentScene=8;
-		background(2, 85, 140);
-		fill(69, 63, 63);
-		mouseX=constrain(mouseX,0,parent_container.offsetWidth - 55);
-		rect(mouseX,windowHeight / 1.5 - 5,55,5);
-		ellipse(positionX,positionY,10,10);
-		ballMovementFree();
-
-		if (health < 0){
-			endGame(false);
-		}
-
-		textSize(27);
-		fill(200, 209, 67);
-		text("Free Mode",142,62);
-		textSize(20);
-		fill(0, 0, 0);
-		text("score:"+score,300,112);   
-	};
 	
 	let drawScene9 = function(win){
 		currentScene=9;
@@ -399,12 +341,6 @@ function setup() {
 			case 5:
 				drawScene5();
 				break;
-			case 6:
-				drawScene6();
-				break;
-			case 8:
-				drawScene8();
-				break;
 			case 9:
 				drawScene9();
 				break;
@@ -425,41 +361,15 @@ function setup() {
 				else if(mouseIsInside(btnChallenge)){
 				drawScene5();
 				}
-				else if(mouseIsInside(btnFree)){
-				drawScene6();
-				}
-			}
-			if(currentScene===2){
-
 			}
 			if(currentScene===3 || currentScene === 4 || currentScene === 9){
 				if(mouseIsInside(btnReturn)){
 					drawScene1();
 				}
 			}
-			if(currentScene===6){
-				if(mouseIsInside(btnFree1)){
-					let temp_speed = inputSpeed.value();
-					let temp_health = inputHealth.value();
-					if (temp_speed != "" && temp_health != ""){
-						health = Number(temp_health)
-						speedfree = Number(temp_speed)
-						loop();
-						drawScene8();
-					}
-				}
-		}
 		};
 
 	
 	
 	drawScene1();
 }
-
-
-
-
-
-
-
-
