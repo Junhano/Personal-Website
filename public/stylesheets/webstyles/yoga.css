@@ -96,6 +96,43 @@ body {
 	flex: 2;
 }
 
+.half-size h1{
+	padding-top: 2rem;
+	font-weight: 100;
+	margin-left: 1.5rem;
+}
+
+.onefour, .twenty{
+	margin-left: 1.5rem;
+	margin-bottom: 3rem;
+}
+
+.onefour, .twenty h3{
+	color: green;
+}
+
+.onefour, .twenty p{
+	color: darkgreen;
+}
+
+
+
+.newheader {
+	margin-top: 15rem;
+	font-size: 60px;
+	text-align: center;
+	color: darkolivegreen;
+}
+
+.newheader hr{
+	width: 30%;
+	margin: 5% auto;
+	border-top: 2px solid black;
+	box-shadow: 5px 10px inset;
+}
+
+
+
 .image-yoga{
 	flex: 1;
 	background-image: url('https://previews.123rf.com/images/ammentorp/ammentorp1607/ammentorp160700171/60046608-vertical-shot-of-female-meditating-in-yoga-class-woman-in-yoga-pose-with-eyes-closed-sitting-on-floo.jpg');
@@ -139,9 +176,77 @@ body {
 	float: right;
 }
 
+.footer{
+	width: 40%;
+	margin: 0 auto;
+	display: flex;
+}
+
+.icon {
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.icon i{
+	font-size: 50px;
+	padding-left: 5%;
+}
+
+.inner{
+	width: 100%;
+	height: 100%;
+}
+
+.blogdiv {
+	width: 100%;
+	height: 30%;
+	display: flex;
+}
+
+.blogpic {
+	flex: 1;
+}
+
+.blogpic img{
+	padding-top: 3rem;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.blogpost {
+	padding-left: 2rem;
+	padding-right: 1rem;
+	flex: 3;
+}
 
 
+.card-group{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
 
+.card{
+	width: 45%;
+	height: 20rem;
+}
+
+.imgcard{
+	width: 100%;
+	height: 70%;
+}
+
+.imgcard img{
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.text-center {
+	text-align: center;
+}
 
 @media(max-width: 936px){
 	.menu-list ul{
