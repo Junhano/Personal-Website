@@ -17,3 +17,22 @@ body {
 	color: inherit
 }
 
+.template-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.template-container div{
+	width: 30%;
+	height: 350px;
+
+}
+
+.template-container div a img{
+	height: auto;
+	width: 100%;
+	display: block;
+}

@@ -1,0 +1,151 @@
+html {
+	height: 200px;
+}
+
+body {
+	background: rgb(55, 107, 85);
+}
+
+.fix-header{
+	position: fixed;
+	display: flex;
+	background: lightgray;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	border-bottom: 1px dashed black;
+}
+
+.fix-header h3{
+	flex: 1;
+	align-self:center;
+	text-align: center;
+}
+
+.fix-header div{
+	flex: 1;
+	align-self:center;
+	text-align: center;
+}
+
+.s-header{
+	padding-top: 4rem;
+}
+
+.s-header h1{
+	text-align: center;
+	margin-bottom: 0;
+}
+
+.s-header h1 a{
+	text-decoration: none;
+	color: lightgreen;
+	font-size: 3.5rem;
+	font-weight: 100;
+}
+
+.s-header h2{
+	color: white;
+	text-align: center;
+	font-weight: 100;
+	margin-top: 0;
+}
+
+.menu-list{
+	width: 40%;
+	margin: 0 auto;
+
+}
+
+.menu-list ul{
+	display: flex;
+	padding: 0;
+	justify-content: space-evenly;
+	list-style-type: none;
+	flex-wrap: wrap;
+	margin-bottom: 0;
+	
+}
+
+.menu-list ul li{
+	text-align: center;
+	flex-basis: 20%;
+	flex: 1
+}
+
+.menu-list ul li a{
+	font-size: 1.2rem;
+	text-decoration: none;
+	color: white;
+}
+
+.hidden {
+	display: none;
+}
+
+
+.white-box{
+	display: flex;
+	background: white;
+	width: 40%;
+	height: 900px;
+	margin: 0 auto;
+}
+
+.half-size{
+	flex: 2;
+}
+
+.image-yoga{
+	flex: 1;
+	background-image: url('https://previews.123rf.com/images/ammentorp/ammentorp1607/ammentorp160700171/60046608-vertical-shot-of-female-meditating-in-yoga-class-woman-in-yoga-pose-with-eyes-closed-sitting-on-floo.jpg');
+	background-size: cover;
+	background-position: center;
+
+	
+}
+
+.iheader{
+	padding-top: 2rem;
+	font-weight: 100;
+	padding-left: 1.5rem;
+}
+
+
+.inputform {
+	width: 50%;
+	height: 70%;
+	margin: 10% auto;
+}
+
+
+
+.inputform input[type = "text"]{
+	width: 100%;
+	height: 8%;
+	margin-bottom: 20px;
+	background-color: lightgrey;
+	border: none;
+}
+
+.inputform textarea {
+	width: 100%;
+	height: 40%;
+	background-color: lightgrey;
+	border: none;
+}
+
+.inputform input[type = "submit"] {
+	float: right;
+}
+
+
+
+
+
+@media(max-width: 936px){
+	.menu-list ul{
+		display: none;
+	}
+	
+}
