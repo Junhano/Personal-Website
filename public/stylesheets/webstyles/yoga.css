@@ -59,18 +59,19 @@ body {
 
 .menu-list ul{
 	display: flex;
-	padding: 0;
-	justify-content: space-evenly;
-	list-style-type: none;
 	flex-wrap: wrap;
+	width: 100%;
+	padding: 0;
+	list-style-type: none;
 	margin-bottom: 0;
 	
 }
 
 .menu-list ul li{
+	flex: 1;
 	text-align: center;
-	flex-basis: 20%;
-	flex: 1
+	
+	
 }
 
 .menu-list ul li a{
@@ -79,8 +80,17 @@ body {
 	color: white;
 }
 
-.hidden {
-	display: none;
+.dropdown-content {
+  display: none;
+  position: absolute;
+  padding: 12px 0;
+  background-color: rgb(55, 107, 85);
+  min-width: 160px;
+  z-index: 1;
+}
+
+.activate:hover .dropdown-content {
+  display: block;
 }
 
 
