@@ -36,3 +36,15 @@ body {
     width: 100%;
     object-fit: cover;
 }
+
+.s-link{
+	width: 10%;
+	margin: 0 auto;
+}
+
+.width-bus {
+	width: 70%;
+	margin: 20px auto;
+	text-align: center;
+	
+}
